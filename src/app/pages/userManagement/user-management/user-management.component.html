@@ -1,0 +1,281 @@
+<div class="h-100 user-management-container p-2">
+  <mat-tab-group class="h-100" (selectedTabChange)="handleChangeTab($event)">
+    <mat-tab class="h-100" label="User List"
+      ><div
+        class="h-15 table-search d-flex justify-content-end align-items-end"
+      >
+        <div class="px-1">
+          <mat-form-field appearance="outline">
+            <input
+              placeholder="Search"
+              matInput
+              (keyup)="applyFilter($event)"
+              #input
+            />
+            <!-- <span matTextPrefix><mat-icon>search</mat-icon></span> -->
+          </mat-form-field>
+        </div>
+      
+      </div>
+      <div class="h-80 px-4 py-2">
+        <div class="mat-elevation-z8 h-80 overflow-y-auto">
+          <table mat-table [dataSource]="dataSource ? dataSource : []" matSort>
+            <ng-container matColumnDef="userName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Username
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <div class="d-flex align-items-center">
+                  <div class="px-1 d-flex align-items-center">
+                    <mat-icon class="user-profile-pic">account_circle</mat-icon>
+                  </div>
+                  <div>
+                    {{ row.userName }}
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+              <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="phoneNumber">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Phone Number
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.phoneNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="d-flex">
+                  <div class="px-1">
+                    <button
+                      class="table-action-btn"
+                      mat-mini-fab
+                      (click)="handleUserDelete(row)"
+                      aria-label="Example icon button with a delete icon"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                  <div class="px-1">
+                    <button
+                      class="table-action-btn"
+                      mat-mini-fab
+                      (click)="handleTrackingStatusChange(row)"
+                      aria-label="Example icon button with a delete icon"
+                    >
+                      <mat-icon>{{
+                        row.isTrackingEnabled ? "location_on" : "location_off"
+                      }}</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="extra">
+              <th mat-header-cell *matHeaderCellDef>Extra</th>
+              <td mat-cell *matCellDef="let row">
+                <mat-icon>more_vert</mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="h-20">
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page of users"
+          ></mat-paginator>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab class="h-100" label="User Approval">
+      <div class="h-15 table-search d-flex justify-content-end align-items-end">
+        <div  class="px-1">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              placeholder="Search"
+              (keyup)="applyFilter($event)"
+              #input
+            />
+          </mat-form-field>
+        </div>
+        <div class="px-1">
+          <button
+            (click)="handleAddUser()"
+            class="add-user-btn"
+            mat-flat-button
+          >
+            <mat-icon>add</mat-icon> Add User
+          </button>
+        </div>
+      </div>
+      <div class="h-80 px-4 py-2">
+        <div class="mat-elevation-z8 h-80 overflow-y-auto">
+          <table
+            mat-table
+            [dataSource]="userApprovalDataSource ? userApprovalDataSource : []"
+            matSort
+          >
+            <ng-container matColumnDef="userName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Username
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+              <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="phoneNumber">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Phone Number
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.phoneNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="d-flex">
+                  <div class="px-1">
+                    <button
+                      class="table-action-btn"
+                      mat-mini-fab
+                      (click)="handleUserApproval(row)"
+                      aria-label="Example icon button with a delete icon"
+                    >
+                      <mat-icon>check_circle</mat-icon>
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      class="table-action-btn"
+                      mat-mini-fab
+                      (click)="handleUserReject(row)"
+                      aria-label="Example icon button with a delete icon"
+                    >
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="extra">
+              <th mat-header-cell *matHeaderCellDef>Extra</th>
+              <td mat-cell *matCellDef="let row">
+                <mat-icon>more_vert</mat-icon>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="h-20">
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page of users"
+          ></mat-paginator>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab class="h-100" label="User Rejected">
+      <div class="h-15 table-search d-flex justify-content-end align-items-end">
+        <div  class="px-1">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              placeholder="Search"
+              (keyup)="applyFilter($event)"
+              #input
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="h-80 px-4 py-2">
+        <div class="mat-elevation-z8 h-80 overflow-y-auto">
+          <table
+            mat-table
+            [dataSource]="userRejectedDataSource ? userRejectedDataSource : []"
+            matSort
+          >
+            <ng-container matColumnDef="userName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Username
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.userName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+              <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="phoneNumber">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Phone Number
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.phoneNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let row">
+                <button
+                  class="table-action-btn"
+                  mat-mini-fab
+                  (click)="handleUserApproval(row)"
+                  aria-label="Example icon button with a delete icon"
+                >
+                  <mat-icon>how_to_reg</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="extra">
+              <th mat-header-cell *matHeaderCellDef>Extra</th>
+              <td mat-cell *matCellDef="let row">
+                <mat-icon>more_vert</mat-icon>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell text-center p-5" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="h-20">
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page of users"
+          ></mat-paginator>
+        </div></div
+    ></mat-tab>
+  </mat-tab-group>
+</div>

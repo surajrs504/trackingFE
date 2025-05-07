@@ -1,0 +1,136 @@
+<div class="tracking-map-container w-100 h-100">
+  <div
+    class="d-flex flex-column p-1 align-items-center h-100 position-relative"
+  >
+    <!-- <div class="map-options py-1 px-2 d-flex justify-content-end">
+      <!-- <div class="py-1 px-2">
+        <div>Tracking route mode</div>
+
+        <mat-slide-toggle
+          class="example-margin"
+          [checked]="isRoutingEnabled"
+          (toggleChange)="onChange()"
+        >
+        </mat-slide-toggle>
+      </div>
+      <div class="py-1 px-2">
+        <div>Signal R</div>
+
+        <mat-slide-toggle
+          class="example-margin"
+          [checked]="isSignalREnabled"
+          (toggleChange)="handleSignalRChange()"
+        >
+        </mat-slide-toggle>
+      </div> 
+      <div>
+        <button (click)="handleEntitiesPanel()" mat-icon-button>
+          <mat-icon>list</mat-icon>
+        </button>
+      </div>
+    </div> -->
+    <div class="w-100 map-main-container d-flex">
+      <div class="map-container d-flex">
+        <div *ngIf="isEntitiesPanelOpen" class="menuContainer mx-1">
+          <div
+            class="menuContainer-header d-flex justify-content-between align-items-center"
+          >
+            <div class="d-flex align-items-center">
+              Entities
+              <div (click)="handleEntitiesListSync()">
+                <mat-icon class="px-1 sync-btn">sync</mat-icon>
+              </div>
+            </div>
+            <div>
+              <mat-icon (click)="handleCloseEntitesPanel()">close</mat-icon>
+            </div>
+          </div>
+          <div
+            *ngFor="let entity of trackingEntities"
+            class="tracker-entity d-flex align-items-center justify-content-center m-1"
+            [ngClass]="
+              entity.userName === selectedUser ? 'tracker-entity-selected' : ''
+            "
+          >
+            <div class="w-100 d-flex align-items-center justify-content-center">
+              <div
+                (click)="handleEntityClick(entity)"
+                class="w-80 d-flex align-items-center justify-content-center"
+              >
+                {{ entity.userName }}
+              </div>
+              <div
+                class="px-2 d-flex align-items-center justify-content-center"
+              >
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  
+                  class="example-icon"
+                  aria-label="Example icon-button with share icon"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="after">
+                  <button mat-menu-item>
+                    <mat-icon>history</mat-icon>
+                    <span>History</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>logout</mat-icon>
+                    <span>Feature 2</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>logout</mat-icon>
+                    <span>Feature 3</span>
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="map">
+          <div class="entities-btn" (click)="handleEntitiesPanel()">
+            <mat-icon>groups</mat-icon>
+          </div>
+          <div class="settings-btn" (click)="handleSettingsPanel()">
+            <mat-icon>settings</mat-icon>
+          </div>
+        </div>
+
+        <div *ngIf="isSettingsPanelOpen" class="menuContainer mx-1">
+          <div
+            class="menuContainer-header d-flex justify-content-between align-items-center py-3"
+          >
+            <div>Settings</div>
+            <div>
+              <mat-icon (click)="handleCloseSettingsPanel()">close</mat-icon>
+            </div>
+          </div>
+          <div class="p-1 d-flex">
+            <div class="pe-3">Tracking route mode</div>
+
+            <mat-slide-toggle
+              class="example-margin"
+              [checked]="isRoutingEnabled"
+              (toggleChange)="onChange()"
+            >
+            </mat-slide-toggle>
+          </div>
+
+          <div class="p-1 d-flex">
+            <div class="pe-3">Signal R</div>
+
+            <mat-slide-toggle
+              class="example-margin"
+              [checked]="isSignalREnabled"
+              (toggleChange)="handleSignalRChange()"
+            >
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

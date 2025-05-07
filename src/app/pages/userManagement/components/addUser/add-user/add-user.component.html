@@ -1,0 +1,56 @@
+<div class="p-2 add-user-form">
+  <div class="d-flex justify-content-between">
+    <div class="form-title">Add User</div>
+    <div class="px-2 py-2" (click)="handleAddUserFormClose()"><mat-icon >close</mat-icon></div>
+  </div>
+  <form
+    [formGroup]="addUserForm"
+    (ngSubmit)="handleSubmit()"
+    class="d-flex flex-column p-4"
+  >
+    <div class="p-1">
+      <mat-form-field appearance="outline" class="p-1">
+        <input
+          matInput
+          placeholder="Username"
+          formControlName="username"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="p-1">
+        <input matInput placeholder="Email" formControlName="email" required />
+      </mat-form-field>
+    </div>
+    <div class="p-1">
+      <mat-form-field appearance="outline" class="p-1">
+        <input
+          matInput
+          placeholder="Phone Number"
+          formControlName="phoneNumber"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="p-1">
+        <input
+         
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="w-100 d-flex justify-content-end">
+      <div class="p-1">
+        <button class="add-user-form-btn" type="submit" mat-raised-button>
+          Add
+        </button>
+      </div>
+      <div class="p-1">
+        <button class="add-user-form-btn" type="reset" mat-raised-button>
+          Clear
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

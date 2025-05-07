@@ -1,0 +1,47 @@
+.menuOptions{
+    padding: 0.8rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    &:hover{
+            background-color: #354058;
+    }
+}
+.productName{
+    text-align: center;
+    padding: 1.2rem;
+    font-weight: 550;
+    font-size: 1.5rem;
+    color: #320699;
+
+}
+
+.content-container{
+    height: 100%;
+}
+
+.mat-drawer.mat-drawer-side {
+    width: 15% !important;
+}
+.mat-toolbar-row, .mat-toolbar-single-row {
+    border-radius: 1rem !important;
+    background-color: #222939;
+    color: white;
+}
+.side-nav-container{
+    border-radius: 1rem ;
+    background-color: #222939;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    justify-content: space-between;
+}
+.spinner-border{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1005;
+}
+.content-container{
+    height: 88% !important;
+}

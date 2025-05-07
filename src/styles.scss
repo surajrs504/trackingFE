@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+@import "leaflet/dist/leaflet.css";
+@import url("bootstrap/dist/css/bootstrap.min.css");
+@import "../src/app/shared/styles/leaflet_override.scss";
+@import "../src/app/shared/styles/materialUI_override.scss";
+@import"../src/app/shared/styles/variable.scss";
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+#map {
+  height: 100%; /* or any specific height like 500px */
+  width: 100%;
+}
+.leaflet-right {
+  display: none !important;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+

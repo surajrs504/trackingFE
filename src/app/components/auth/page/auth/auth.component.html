@@ -1,0 +1,27 @@
+<div class="d-flex w-100 h-100">
+  <div class="w-50 d-flex justify-content-center align-items-center">
+    <!-- <img class="w-50" src="assets/images/tracking.jpg" /> -->
+    <video
+      autoplay
+      muted
+      playsinline
+      preload="auto"
+      onloadedmetadata="this.muted=true"
+      loop
+      id="myVideo"
+    >
+      <source
+        src="../../../../../assets/videos/login_screen_video.mp4"
+        type="video/mp4"
+      />
+    </video>
+  </div>
+  <div
+    class="w-50 d-flex flex-column justify-content-center align-items-center login-right-side"
+  >
+    <div class="productName py-5">TRACKERITE</div>
+    <div class="p-2 w-50">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

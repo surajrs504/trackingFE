@@ -1,0 +1,148 @@
+@import "./variable.scss";
+.loginPage {
+  .mat-mdc-text-field-wrapper {
+    border-radius: 2rem !important;
+    background-color: rgb(255, 255, 255) !important;
+  }
+  .mdc-notched-outline .mdc-notched-outline__leading,
+  .mdc-notched-outline .mdc-notched-outline__notch,
+  .mdc-notched-outline .mdc-notched-outline__trailing {
+    border: 0px !important;
+  }
+}
+.registerPage,
+.add-user-form {
+  .mat-mdc-text-field-wrapper {
+    border-radius: 2rem !important;
+    background-color: rgb(255, 255, 255) !important;
+  }
+  .mdc-notched-outline .mdc-notched-outline__leading,
+  .mdc-notched-outline .mdc-notched-outline__notch,
+  .mdc-notched-outline .mdc-notched-outline__trailing {
+    border: 0px !important;
+  }
+}
+
+.add-user-form {
+  .mat-mdc-text-field-wrapper {
+    border-radius: 1rem !important;
+    background-color: rgb(237 237 237) !important;
+  }
+  .mdc-notched-outline .mdc-notched-outline__leading,
+  .mdc-notched-outline .mdc-notched-outline__notch,
+  .mdc-notched-outline .mdc-notched-outline__trailing {
+    border: 0px !important;
+  }
+}
+
+.user-management-container {
+  .mat-mdc-tab-body-wrapper {
+    height: 100% !important;
+  }
+  .mat-mdc-table thead {
+    background-color: #f8f8f8 !important;
+  }
+  .mat-sort-header-container {
+    color: #565656 !important;
+  }
+  .mat-mdc-header-row {
+    height: 2.5rem !important;
+  }
+
+  .table-search {
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+      .mdc-notched-outline
+      .mdc-notched-outline__leading {
+      border-width: 0.15rem !important;
+      border-radius: 1rem 0rem 0rem 1rem;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+      .mdc-notched-outline__leading {
+      border-color: rgb(184 184 184 / 38%) !important;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+      .mdc-notched-outline
+      .mdc-notched-outline__trailing {
+      border-width: 0.15rem !important;
+      border-radius: 0rem 0.8rem 0.8rem 0rem;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+      .mdc-notched-outline__trailing {
+      border-color: rgb(184 184 184 / 38%) !important;
+    }
+    .mat-mdc-form-field-subscript-wrapper {
+      height: 0rem !important;
+    }
+
+    .mat-mdc-text-field-wrapper {
+      height: 2.5rem !important;
+      width: 17rem !important;
+    }
+
+    .mat-mdc-form-field-flex {
+      height: 100% !important;
+    }
+    .mdc-text-field--outlined .mat-mdc-form-field-infix {
+      height: 100% !important;
+      min-height: 100% !important;
+      padding: unset;
+    }
+    .mat-mdc-form-field:not(.mat-form-field-no-animations)
+      .mdc-text-field__input {
+      height: 100% !important;
+    }
+  }
+
+  .table-action-btn,
+  .add-user-btn {
+    background-color: $color-primary !important;
+    color: white !important;
+  }
+  .add-user-btn {
+    border-radius: 0.7rem !important;
+    height: 2.4rem !important;
+  }
+  .table-action-btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs
+    > .mat-mdc-tab-header
+    .mat-mdc-tab {
+    background-color: #f8f8f8;
+    height: 2rem;
+  }
+
+  .mat-mdc-tab .mdc-tab-indicator__content--underline {
+    border-color: $color-primary !important;
+  }
+  .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: $color-primary !important;
+  }
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 1rem !important;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background-color: $color-primary !important;
+}
+
+.mat-mdc-snack-bar-container
+  .mat-mdc-button.mat-mdc-snack-bar-action:not(:disabled) {
+  color: white !important;
+}
+.mat-mdc-menu-panel {
+  border-radius: 1rem !important;
+}
+.tracking-map-container {
+ 
+  .mat-mdc-menu-item {
+    height: 1rem  !important;
+  }
+}
