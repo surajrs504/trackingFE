@@ -66,11 +66,17 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "trackingFE:build:production"
+              "buildTarget": "trackingFE:build:production",
+              "host": "0.0.0.0",
+            "port": 5000
             },
             "development": {
               "buildTarget": "trackingFE:build:development"
-            }
+            } ,
+            "options": {
+             "host": "0.0.0.0",
+              "port": 5000
+        }
           },
           "defaultConfiguration": "development"
         },
