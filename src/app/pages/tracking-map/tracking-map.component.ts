@@ -50,7 +50,7 @@ import { ListDialogComponent } from '../../components/list-dialog/list-dialog.co
     MatFormFieldModule,
     MatDatepickerModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './tracking-map.component.html',
   styleUrl: './tracking-map.component.scss',
@@ -247,24 +247,25 @@ export class TrackingMapComponent implements AfterViewInit, OnInit {
   readonly dialog = inject(MatDialog);
 
   handleEntitiesPanel() {
-   
-     const newWidth = window.innerWidth;
-     console.log("newWidth",newWidth);
-     if(newWidth<460){
- const dialogRef = this.dialog.open(ListDialogComponent,{
-      data: {
-       userList:this.trackingEntities,
-       dialogHeader:"Entities",
-      },
-    });
+    const newWidth = window.innerWidth;
+    console.log('newWidth', newWidth);
+    if (newWidth < 500) {
+      const dialogRef = this.dialog.open(ListDialogComponent, {
+        data: {
+          userList: this.trackingEntities,
+          dialogHeader: 'Entities',
+        },
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
-     }else{
- this.isEntitiesPanelOpen = !this.isEntitiesPanelOpen;
-     }
- 
+      dialogRef.afterClosed().subscribe((result: any) => {
+        console.log(result);
+        if (result && result.userName) {
+          this.handleEntityClick(result);
+        }
+      });
+    } else {
+      this.isEntitiesPanelOpen = !this.isEntitiesPanelOpen;
+    }
   }
   handleCloseSettingsPanel() {
     this.isSettingsPanelOpen = false;
@@ -295,7 +296,7 @@ export class TrackingMapComponent implements AfterViewInit, OnInit {
       this.map?.removeLayer(this.circle);
     }
     this.pathCoordinates = [];
-    
+
     this.polyline.setLatLngs([]);
     this.selectedUser = entity;
     this.isLiveEntityTrackingEnabled = true;
@@ -557,9 +558,9 @@ export class TrackingMapComponent implements AfterViewInit, OnInit {
       playbackSpeed === '1x' ? 1 : playbackSpeed === '2x' ? 2 : 5;
     this.handleEntityHistoryPlay();
   }
-  isEntityChatWindowOpen=false
-  handleEntityChat(enitity:any){
-    this.selectedUser=enitity
-    this.isEntityChatWindowOpen=true
+  isEntityChatWindowOpen = false;
+  handleEntityChat(enitity: any) {
+    this.selectedUser = enitity;
+    this.isEntityChatWindowOpen = true;
   }
 }

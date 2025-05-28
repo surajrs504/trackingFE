@@ -3,10 +3,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  background-color: rgb(243, 240, 240);
   &-selected {
     padding-block: 0.5rem;
     border-radius: 0.5rem;
     background-color: #222939;
     color: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .list-dialog-container {
+    width: 18rem !important;
+    max-width: 35rem !important;
+    overflow-y: auto;
+  }
+  .mat-mdc-dialog-container .mat-mdc-dialog-title + .mat-mdc-dialog-content {
+    height: 75% !important;
+  }
+  .mat-mdc-dialog-container-with-actions .mat-mdc-dialog-content {
+    height: 75% !important;
   }
 }

@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+ 
+  .mat-mdc-dialog-container .mat-mdc-dialog-title+.mat-mdc-dialog-content{
+    max-height: 75% !important;
+  }
+}

@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>{{data.dialogHeader}}</h2>
+<div class="w-100 list-dialog-container">
+  <h2 mat-dialog-title>{{data.dialogHeader}}</h2>
 <mat-dialog-content class="mat-typography">
 
     <div  class="list-items" *ngFor="let item of data.userList">
@@ -13,5 +14,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="selectedData" cdkFocusInitial>Ok</button>
 </mat-dialog-actions>
+</div>
