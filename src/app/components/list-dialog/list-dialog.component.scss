@@ -1,0 +1,12 @@
+.list-items {
+  padding-block: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &-selected {
+    padding-block: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #222939;
+    color: white;
+  }
+}

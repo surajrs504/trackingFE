@@ -1,9 +1,35 @@
-<div class="h-100 user-management-container p-2">
-  <mat-tab-group class="h-100" (selectedTabChange)="handleChangeTab($event)">
+<div class="h-100 user-management-container">
+  <mat-tab-group
+    class="h-100"
+    (selectedTabChange)="handleChangeTab($event)"
+    mat-align-tabs="start"
+    mat-stretch-tabs="false"
+  >
     <mat-tab class="h-100" label="User List"
       ><div
-        class="h-15 table-search d-flex justify-content-end align-items-end"
+        class="h-15 px-4 table-search d-flex justify-content-between align-items-end"
       >
+        <div class="px-1 d-flex align-items-center" *ngIf="vendorOptions.length > 0">
+          <form class="px-1">
+            <mat-form-field appearance="outline">
+              <input
+                type="text"
+                placeholder="Pick one"
+                aria-label="Number"
+                matInput
+                [formControl]="myControl"
+                [matAutocomplete]="auto"
+              />
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                @for (option of filteredOptions | async; track option) {
+                <mat-option [value]="option.name">{{ option.name }}</mat-option>
+                }
+              </mat-autocomplete>
+            </mat-form-field>
+          </form>
+          <button class="px-1" mat-icon-button><mat-icon>add_business</mat-icon></button>
+        </div>
+        
         <div class="px-1">
           <mat-form-field appearance="outline">
             <input
@@ -15,7 +41,6 @@
             <!-- <span matTextPrefix><mat-icon>search</mat-icon></span> -->
           </mat-form-field>
         </div>
-      
       </div>
       <div class="h-80 px-4 py-2">
         <div class="mat-elevation-z8 h-80 overflow-y-auto">
@@ -46,6 +71,12 @@
                 Phone Number
               </th>
               <td mat-cell *matCellDef="let row">{{ row.phoneNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="groupName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Group Name
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.groupName }}</td>
             </ng-container>
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -79,7 +110,24 @@
             <ng-container matColumnDef="extra">
               <th mat-header-cell *matHeaderCellDef>Extra</th>
               <td mat-cell *matCellDef="let row">
-                <mat-icon>more_vert</mat-icon>
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  class="example-icon"
+                  aria-label="Example icon-button with share icon"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="after">
+                  <button mat-menu-item>
+                    <mat-icon>edit_note</mat-icon>
+                    <span>Edit</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>visibility</mat-icon>
+                    <span>View</span>
+                  </button>
+                </mat-menu>
               </td>
             </ng-container>
 
@@ -105,7 +153,7 @@
 
     <mat-tab class="h-100" label="User Approval">
       <div class="h-15 table-search d-flex justify-content-end align-items-end">
-        <div  class="px-1">
+        <div class="px-1">
           <mat-form-field appearance="outline">
             <input
               matInput
@@ -149,6 +197,12 @@
                 Phone Number
               </th>
               <td mat-cell *matCellDef="let row">{{ row.phoneNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="groupName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Group Name
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.groupName }}</td>
             </ng-container>
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -204,7 +258,7 @@
     </mat-tab>
     <mat-tab class="h-100" label="User Rejected">
       <div class="h-15 table-search d-flex justify-content-end align-items-end">
-        <div  class="px-1">
+        <div class="px-1">
           <mat-form-field appearance="outline">
             <input
               matInput
@@ -239,6 +293,12 @@
                 Phone Number
               </th>
               <td mat-cell *matCellDef="let row">{{ row.phoneNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="groupName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Group Name
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.groupName }}</td>
             </ng-container>
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef>Action</th>

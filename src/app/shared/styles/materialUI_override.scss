@@ -36,8 +36,16 @@
 }
 
 .user-management-container {
+  .mat-mdc-tab-header {
+  background-color: #f8f8f8 !important;
+}
+.mat-mdc-tab.mdc-tab{
+      margin-inline: 1rem;
+          height: 2.5rem;
+}
   .mat-mdc-tab-body-wrapper {
     height: 100% !important;
+        background-color: #efefef;
   }
   .mat-mdc-table thead {
     background-color: #f8f8f8 !important;
@@ -137,12 +145,56 @@
   .mat-mdc-button.mat-mdc-snack-bar-action:not(:disabled) {
   color: white !important;
 }
-.mat-mdc-menu-panel {
-  border-radius: 1rem !important;
-}
-.tracking-map-container {
- 
-  .mat-mdc-menu-item {
-    height: 1rem  !important;
+
+.entity-history-slider {
+  .mat-mdc-form-field {
+    height: 2rem !important;
+    width: 10rem;
+  }
+  .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+    height: 100% !important;
+    padding: unset;
+  }
+  .mat-mdc-form-field-flex {
+    height: 100% !important;
+  }
+
+  .mdc-text-field--outlined .mat-mdc-form-field-infix,
+  .mdc-text-field--no-label .mat-mdc-form-field-infix {
+    padding: 0.3rem !important;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    border-radius: 1rem !important;
+    background-color: rgb(237 237 237) !important;
+  }
+  .mdc-notched-outline .mdc-notched-outline__leading,
+  .mdc-notched-outline .mdc-notched-outline__notch,
+  .mdc-notched-outline .mdc-notched-outline__trailing {
+    border: 0px !important;
+  }
+  .mdc-text-field--no-label:not(.mdc-text-field--textarea)
+    .mat-mdc-form-field-input-control.mdc-text-field__input,
+  .mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
+    padding-left: 1rem;
+    font-size: 1rem;
   }
 }
+
+.mat-mdc-slider .mdc-slider__track--active_fill {
+  border-color: $color-primary !important;
+}
+
+.mat-mdc-slider .mdc-slider__thumb-knob {
+  background-color: $color-primary !important;
+  border-color: $color-primary !important;
+}
+
+.cdk-overlay-container {
+  z-index: 1010 !important;
+}
+

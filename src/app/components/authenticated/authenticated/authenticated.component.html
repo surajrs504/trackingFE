@@ -1,22 +1,94 @@
-<!-- <mat-drawer-container class="w-100 h-100" autosize>
-  <mat-drawer #drawer class="h-100" mode="side"> </mat-drawer>
+<div class="d-flex w-100 h-100">
+  <div
+    class="toolbar-container"
+    (mouseover)="handleMenuExpand()"
+    (mouseleave)="handleMenuCollapse()"
+    [class.toolbar-container-collapsed]="isCollapsed"
+  >
+    <div class="h-100 side-nav-container px-2 py-1">
+      <div>
+       
+        <div class="d-flex py-1 align-items-center">
+          <div class="menuOptions d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex">
+              <div
+              class="side-nav-icon-container ps-1 d-flex justify-content-center align-items-center"
+            >
+              <mat-icon>pin_drop</mat-icon>
+            </div>
 
-  <mat-drawer-content> </mat-drawer-content>
-</mat-drawer-container> -->
+            <div *ngIf="!isCollapsed" class="px-2">TRACKERITE</div>
+            </div>
+            <div *ngIf="!isCollapsed" class="close-btn-mobile" (click)="handleToggle()">
+              <mat-icon>close</mat-icon>
+            </div>
+          </div>
+        </div>
+        <div
+          *ngFor="let option of menuOptions"
+          class="d-flex py-1 justify-content-center align-items-center"
+        >
+          <div
+            (click)="handleSidenavPageChange(option)"
+            class="menuOptions d-flex align-items-center w-100"
+            [ngClass]="{
+              'side-nav-menu-active': option.name === selectedOption?.name
+            }"
+          >
+            <div
+              class="side-nav-icon-container ps-1 d-flex justify-content-center align-items-center"
+            >
+              <mat-icon>{{ option.icon }}</mat-icon>
+            </div>
+            <div
+              class="text-nowrap px-2 side-nav-label"
+              [class.side-nav-label-visible]="!isCollapsed"
+            >
+              {{ option.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex py-1 align-items-center">
+        <div
+          [matTooltipDisabled]="!isCollapsed"
+          [matTooltip]="'Settings'"
+          [matTooltipPosition]="'right'"
+          (click)="handleSidenavPageChange('settings')"
+          class="menuOptions d-flex align-items-center w-100"
+        >
+          <div
+            class="side-nav-icon-container ps-1 d-flex justify-content-center align-items-center"
+          >
+            <mat-icon>settings</mat-icon>
+          </div>
 
-<div class="d-flex flex-column w-100 h-100">
-  <div class="toolbar-container px-1 py-1">
+          <div *ngIf="!isCollapsed" class="px-2">Settings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-column content-container">
     <mat-toolbar>
       <div class="w-100 d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-          <button
+          <!-- <button
             mat-icon-button
             class="example-icon"
             aria-label="Example icon-button with menu icon"
           >
-            <mat-icon>pin_drop</mat-icon>
-          </button>
-          <div>TRACKERITE</div>
+            <mat-icon>{{ selectedOption.icon }}</mat-icon>
+          </button> -->
+
+           <button
+          mat-icon-button
+          class="menu-btn-phone"
+          (click)="handleToggle()"
+          aria-label="Example icon-button with menu icon"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+          <div>{{ selectedOption?.name }}</div>
         </div>
         <div class="d-flex align-items-center">
           <div *ngIf="userDetails$ | async as user">Hi {{ user.username }}</div>
@@ -43,67 +115,16 @@
         </div>
       </div>
     </mat-toolbar>
-  </div>
-  <div class="d-flex content-container pb-1 px-1">
-    <div class="h-100 side-nav-container">
-    <div>
-      <div
-      *ngFor="let option of menuOptions"
-      class="p-2 d-flex justify-content-center align-items-center"
-    >
-      <div
-        [matTooltip]="option.name"
-        [matTooltipPosition]="'right'"
-        (click)="handleSidenavPageChange(option)"
-        class="menuOptions d-flex justify-content-center align-items-center w-100"
-      >
-        <mat-icon>{{ option.icon }}</mat-icon>
-      </div>
-    </div>
-    </div>
-      <div class="p-2 d-flex justify-content-center align-items-center">
-        <div
-          [matTooltip]="'Settings'"
-          [matTooltipPosition]="'right'"
-          (click)="handleSidenavPageChange('settings')"
-          class="menuOptions d-flex justify-content-center align-items-center w-100"
-        >
-          <mat-icon>settings</mat-icon>
-        </div>
-      </div>
-
-      <!-- <div class="p-2 d-flex justify-content-center align-items-center">
-        <div
-          class="menuOptions d-flex justify-content-center align-items-center w-100"
-        >
-          <mat-icon>travel_explore</mat-icon>
-        </div>
-      </div>
-      <div class="p-2 d-flex justify-content-center align-items-center">
-        <div
-          class="menuOptions d-flex justify-content-center align-items-center w-100"
-        >
-          <mat-icon>person_pin</mat-icon>
-        </div>
-      </div>
-      <div class="p-2 d-flex justify-content-center align-items-center">
-        <div
-          class="menuOptions d-flex justify-content-center align-items-center w-100"
-        >
-          <mat-icon>person</mat-icon>
-        </div>
-      </div> -->
-    </div>
     <div class="w-100 h-100">
-        <div
-          *ngIf="loading$ | async"
-          class="spinner-border"
-          style="width: 3rem; height: 3rem"
-          role="status"
-        >
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <router-outlet />
+      <div
+        *ngIf="loading$ | async"
+        class="spinner-border"
+        style="width: 3rem; height: 3rem"
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <router-outlet />
     </div>
   </div>
 </div>

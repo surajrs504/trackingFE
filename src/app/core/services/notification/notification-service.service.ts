@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class NotificationServiceService {
-  constructor() {}
   snackBar = inject(MatSnackBar);
 
   showNotification(message: string, time: number) {

@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{data.dialogHeader}}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <div  class="list-items" *ngFor="let item of data.userList">
+        <div (click)="handleItemClick(item)" class="px-1"  [ngClass]="
+              selectedData?.userName === item?.userName
+                ? 'list-items-selected'
+                : ''" >
+            {{item.userName}}
+        </div>
+           
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

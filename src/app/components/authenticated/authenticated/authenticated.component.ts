@@ -12,7 +12,7 @@ import {
   selectLoading,
   selectUserDetails,
 } from '../../../store/loader/selectors';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { response } from 'express';
 import { changeUserDetails } from '../../../store/loader/action';
 @Component({
@@ -26,38 +26,56 @@ import { changeUserDetails } from '../../../store/loader/action';
     MatIconModule,
     MatToolbarModule,
     CommonModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './authenticated.component.html',
   styleUrl: './authenticated.component.scss',
 })
 export class AuthenticatedComponent implements OnInit {
-  menuOptions:any[]=[]
-  ngOnInit(): void {
-   this.userDetails$.subscribe({
-    next:response=>{
-      if(response.role==='User'){
-        this.menuOptions = [
-          { name: 'Tracking', route: '/a/tracking', icon: 'location_on' },
-        ];
-      }
-      if(response.role==='Admin'){
-        this.menuOptions = [
-          { name: 'Tracking', route: '/a/tracking', icon: 'location_on' },
-          { name: 'User Management', route: '/a/userManagement', icon: 'manage_accounts' },
-        ];
-      }
-
-      console.log(response,'lllllllllllllll');
-    }
-   })
-   
-  }
-
+  menuOptions: any[] = [];
   router = inject(Router);
   store = inject(Store);
   loading$: Observable<boolean> = this.store.select(selectLoading);
   userDetails$ = this.store.select(selectUserDetails);
+  isCollapsed=true
+
+  ngOnInit(): void {
+    this.userDetails$.subscribe({
+      next: (response) => {
+        if (response.role === 'User') {
+          this.menuOptions = [
+            { name: 'Tracking', route: '/a/tracking', icon: 'location_on' },
+          ];
+        }
+        if (response.role === 'Admin') {
+          this.menuOptions = [
+            { name: 'Tracking', route: '/a/tracking', icon: 'location_on' },
+            {
+              name: 'User Management',
+              route: '/a/userManagement',
+              icon: 'manage_accounts',
+            },
+            {
+              name: 'Support',
+              route: '/a/support-tickets',
+              icon: 'support_agent',
+            },
+            {
+              name: 'Vehicle Asistance',
+              route: '/a/userManagement',
+              icon: 'toys',
+            },
+            {
+              name: 'Subscription',
+              route: '/a/userManagement',
+              icon: 'payments',
+            },
+          ];
+        }
+        this.selectedOption = this.menuOptions[0];
+      },
+    });
+  }
 
   handleProfileMenu(option: any) {
     if (option === 'logout') {
@@ -67,7 +85,18 @@ export class AuthenticatedComponent implements OnInit {
     }
   }
 
+  selectedOption: any;
   handleSidenavPageChange(option: any) {
+    this.selectedOption = option;
     this.router.navigate([option.route]);
+  }
+  handleMenuExpand(){
+    this.isCollapsed = false;
+  }
+   handleMenuCollapse(){
+    this.isCollapsed = true;
+  }
+   handleToggle(){
+    this.isCollapsed = !this.isCollapsed;
   }
 }

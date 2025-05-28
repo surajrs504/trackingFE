@@ -2,33 +2,6 @@
   <div
     class="d-flex flex-column p-1 align-items-center h-100 position-relative"
   >
-    <!-- <div class="map-options py-1 px-2 d-flex justify-content-end">
-      <!-- <div class="py-1 px-2">
-        <div>Tracking route mode</div>
-
-        <mat-slide-toggle
-          class="example-margin"
-          [checked]="isRoutingEnabled"
-          (toggleChange)="onChange()"
-        >
-        </mat-slide-toggle>
-      </div>
-      <div class="py-1 px-2">
-        <div>Signal R</div>
-
-        <mat-slide-toggle
-          class="example-margin"
-          [checked]="isSignalREnabled"
-          (toggleChange)="handleSignalRChange()"
-        >
-        </mat-slide-toggle>
-      </div> 
-      <div>
-        <button (click)="handleEntitiesPanel()" mat-icon-button>
-          <mat-icon>list</mat-icon>
-        </button>
-      </div>
-    </div> -->
     <div class="w-100 map-main-container d-flex">
       <div class="map-container d-flex">
         <div *ngIf="isEntitiesPanelOpen" class="menuContainer mx-1">
@@ -49,7 +22,9 @@
             *ngFor="let entity of trackingEntities"
             class="tracker-entity d-flex align-items-center justify-content-center m-1"
             [ngClass]="
-              entity.userName === selectedUser ? 'tracker-entity-selected' : ''
+              entity.userName === selectedUser?.userName
+                ? 'tracker-entity-selected'
+                : ''
             "
           >
             <div class="w-100 d-flex align-items-center justify-content-center">
@@ -65,20 +40,19 @@
                 <button
                   mat-icon-button
                   [matMenuTriggerFor]="menu"
-                  
                   class="example-icon"
                   aria-label="Example icon-button with share icon"
                 >
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="after">
-                  <button mat-menu-item>
+                  <button (click)="handleEntityHistory(entity)" mat-menu-item>
                     <mat-icon>history</mat-icon>
                     <span>History</span>
                   </button>
-                  <button mat-menu-item>
-                    <mat-icon>logout</mat-icon>
-                    <span>Feature 2</span>
+                  <button (click)="handleEntityChat(entity)" mat-menu-item>
+                    <mat-icon>chat</mat-icon>
+                    <span>Chat</span>
                   </button>
                   <button mat-menu-item>
                     <mat-icon>logout</mat-icon>
@@ -97,6 +71,140 @@
           <div class="settings-btn" (click)="handleSettingsPanel()">
             <mat-icon>settings</mat-icon>
           </div>
+          <div
+            *ngIf="isEntityHistoryEnabled"
+            class="w-100 d-flex justify-content-center"
+          >
+            <div
+              class="entity-details-panel d-flex justify-content-around align-items-center px-1 mx-1"
+            >
+              <div class="d-flex">
+                <div class="entity-details-panel-title">Last Seen:</div>
+                <div>{{ entityHistoryStatus.lastSeenTime }}</div>
+              </div>
+              <div class="d-flex">
+                <div class="entity-details-panel-title">Last Seen at:</div>
+                <div>{{ entityHistoryStatus.address }}</div>
+              </div>
+              <div class="d-flex">
+                <div class="entity-details-panel-title">Avg Speed:</div>
+                <div>{{ entityHistoryStatus.speed }} km/h</div>
+              </div>
+              <div class="d-flex">
+                <div class="entity-details-panel-title">Status:</div>
+                <div>{{ entityHistoryStatus.status }}</div>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="isLiveEntityTrackingEnabled"
+            class="w-100 d-flex justify-content-center"
+          >
+            <div
+              class="entity-details-panel d-flex justify-content-around align-items-center px-1 mx-1"
+            >
+              <div class="d-flex">
+                <div class="entity-details-panel-title">Last Seen:</div>
+                <div>{{ entityLiveStatus.lastSeenTime }}</div>
+              </div>
+              <div class="d-flex">
+                <div class="entity-details-panel-title">Last Seen at:</div>
+                <div>{{ entityLiveStatus.address }}</div>
+              </div>
+              <div class="d-flex">
+                <div class="entity-details-panel-title">Avg Speed:</div>
+                <div>{{ entityLiveStatus.speed }} km/h</div>
+              </div>
+              <div class="d-flex">
+                <div class="entity-details-panel-title">Status:</div>
+                <div>{{ entityLiveStatus.status }}</div>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="isEntityHistoryEnabled"
+            id="history-slider-Container"
+            class="history-slider-Container d-flex align-items-center mx-1"
+          >
+            <div class="entity-history-slider">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <input
+                  matInput
+                  [matDatepickerFilter]="myFilter"
+                  [matDatepicker]="picker"
+                  (dateChange)="handleEntityDateChange($event)"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div></div>
+            <div class="play-btn mx-1" (click)="handleEntityHistoryPlay()">
+              <mat-icon>{{
+                isEntityHistoryPaused ? "play_arrow" : "pause"
+              }}</mat-icon>
+            </div>
+            <div class="stop-btn mx-1" (click)="handleEntityHistoryStop()">
+              <mat-icon>stop</mat-icon>
+            </div>
+            <!-- {{ historySliderMaxValue - historySliderValue }} -->
+            <div class="px-1">
+              {{ historySliderDisplayValues.currentTime }}
+            </div>
+            <mat-slider class="mx-1" min="0" [max]="historySliderMaxValue">
+              <input
+                (valueChange)="handleHistorySliderDrag($event)"
+                [value]="historySliderValue"
+                matSliderThumb
+              />
+            </mat-slider>
+            <div class="px-1">
+              {{ historySliderDisplayValues.MaxTime }}
+            </div>
+            <div class="px-1">
+              <button
+                class="playback-speed-btn"
+                mat-mini-fab
+                [matMenuTriggerFor]="aboveMenu"
+              >
+                <mat-icon>speed</mat-icon>
+              </button>
+              <mat-menu
+                #aboveMenu="matMenu"
+                yPosition="above"
+                xPosition="after"
+              >
+                <button
+                  (click)="handleHistoryPlaybackSpeed('1x')"
+                  mat-menu-item
+                >
+                  1x
+                </button>
+                <button
+                  (click)="handleHistoryPlaybackSpeed('2x')"
+                  mat-menu-item
+                >
+                  2x
+                </button>
+                <button
+                  (click)="handleHistoryPlaybackSpeed('5x')"
+                  mat-menu-item
+                >
+                  5x
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+          <div class="chat-window-container" *ngIf="isEntityChatWindowOpen">
+            <div class="chat-window-container-user p-1">
+              {{ selectedUser.email }}
+            </div>
+            <div class="chat-window-container-window p-1">chat window</div>
+            <div class="chat-window-container-textBox p-1">text box</div>
+          </div>
         </div>
 
         <div *ngIf="isSettingsPanelOpen" class="menuContainer mx-1">
@@ -114,18 +222,7 @@
             <mat-slide-toggle
               class="example-margin"
               [checked]="isRoutingEnabled"
-              (toggleChange)="onChange()"
-            >
-            </mat-slide-toggle>
-          </div>
-
-          <div class="p-1 d-flex">
-            <div class="pe-3">Signal R</div>
-
-            <mat-slide-toggle
-              class="example-margin"
-              [checked]="isSignalREnabled"
-              (toggleChange)="handleSignalRChange()"
+              (toggleChange)="changeTrackingstyle()"
             >
             </mat-slide-toggle>
           </div>

@@ -44,10 +44,7 @@ export class LoginComponent {
     });
   }
 
-  handleLogin() {
-    // this.router.navigate(['/tracking']);
-  }
-
+ 
   onSubmit() {
     if (this.loginForm.valid) {
       console.log('Form Submitted', this.loginForm.value);

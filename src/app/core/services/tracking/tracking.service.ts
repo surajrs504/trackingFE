@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,44 +9,23 @@ export class TrackingService {
   constructor() {}
 
   http = inject(HttpClient);
+  baseUrl = environment.baseUrl;
 
   getEntitiesList() {
-    return this.http.get<any>('https://localhost:7004/api/user/getTrackingUser');
+    return this.http.get<any>(this.baseUrl + '/user/getTrackingUser');
   }
-  getUserApprovalList() {
-    return this.http.get<any>(
-      'https://localhost:7004/api/auth/getUserApprovalList'
-    );
-  }
-  getApprovedUserList() {
-    return this.http.get<any>(
-      'https://localhost:7004/api/auth/getUserApprovedList'
+  
+
+  getEntityHistoryDetails(payload: any) {
+    return this.http.post(
+      this.baseUrl + '/tracking/getEntityHistoryDetails',
+      payload
     );
   }
 
-  getUserRejectedList() {
-    return this.http.get<any>(
-      'https://localhost:7004/api/auth/getUserRejectedList'
-    );
-  }
-
-  approveUser(userEmail: any) {
-    return this.http.post<any>(
-      'https://localhost:7004/api/user/approveUser',
-      userEmail
-    );
-  }
-
-  rejectUser(userEmail: any) {
-    return this.http.post<any>(
-      'https://localhost:7004/api/user/rejectUser',
-      userEmail
-    );
-  }
-  enableUserTracking(userEmail: any) {
-    return this.http.post<any>(
-      'https://localhost:7004/api/User/changeTrackingStatus',
-      userEmail
+  getReverseGeoLocationDetails(latitude: any, longitude: any) {
+    return this.http.get(
+      `https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}&api_key=681d81b72bfc8103911905qgd924273`
     );
   }
 }

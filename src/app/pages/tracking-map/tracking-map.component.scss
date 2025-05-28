@@ -74,7 +74,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 0.5rem;
-  margin: 1rem;
+  margin-inline: 1rem;
+  margin-block: 0.5rem;
   &:hover {
     background-color: #222939;
     color: white;
@@ -109,10 +110,109 @@
   justify-content: center;
 }
 
-
 .mat-mdc-menu-panel {
   border-radius: 1rem !important;
 }
 .mat-mdc-menu-item {
-  min-height: 2rem  !important;
+  min-height: 2rem !important;
+}
+
+.history-slider-Container {
+  width: 100%;
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 0.3rem;
+  z-index: 1001;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  height: 3rem;
+  margin: 1rem;
+}
+
+.entity-details-panel {
+  width: 65%;
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+  z-index: 1001;
+  top: 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  height: 2.5rem;
+  margin: 0.5rem;
+  &-title {
+    font-weight: 600;
+    padding-inline: 0.5rem;
+  }
+}
+
+.mat-mdc-slider {
+  width: 60%;
+}
+
+.play-btn,
+.stop-btn {
+  width: 1.9rem;
+  background-color: white;
+  height: 1.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background-color: #222939;
+    color: white;
+    cursor: pointer;
+  }
+}
+.mat-mdc-form-field {
+  height: 2rem !important;
+}
+.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+  height: 100% !important;
+}
+.mat-mdc-form-field-flex {
+  height: 100% !important;
+}
+
+.mdc-text-field--outlined .mat-mdc-form-field-infix,
+.mdc-text-field--no-label .mat-mdc-form-field-infix {
+  padding: 0.5rem !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+.playback-speed-btn {
+  background: white;
+  box-shadow: unset;
+  color: black;
+}
+
+.chat-window-container {
+  width: 18rem;
+  height: 20rem;
+  position: absolute;
+  z-index: 1000;
+  background-color: white;
+  bottom: 3rem;
+  right: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  &-user {
+    height: 15%;
+  }
+  &-window {
+    height: 70%;
+    background-color: #f3f3f3;
+  }
+  &-textBox {
+    height: 15%;
+  }
 }

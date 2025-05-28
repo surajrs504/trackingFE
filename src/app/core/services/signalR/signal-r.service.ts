@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
 import { hideLoading, showLoading } from '../../../store/loader/action';
+import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
@@ -10,14 +11,16 @@ export class SignalRService {
   hubConnection: signalR.HubConnection | undefined;
   http = inject(HttpClient);
   store = inject(Store);
+  environment = environment.coreUrl;
+  
   startConnection() {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7004/trackinghub', {
+      .withUrl(`${environment.coreUrl}/trackinghub`, {
         withCredentials: true, // This ensures credentials are sent with the request
       })
       .build();
     this.store.dispatch(showLoading());
-    this.hubConnection
+    return this.hubConnection
       .start()
       .then(() => {
         this.store.dispatch(hideLoading());
@@ -45,7 +48,8 @@ export class SignalRService {
     console.log('calling data for ', email);
     this.store.dispatch(showLoading());
     this.hubConnection
-      ?.invoke('SubscribeToLocation', email).finally(()=>{
+      ?.invoke('SubscribeToLocation', email)
+      .finally(() => {
         this.store.dispatch(hideLoading());
       })
       .catch((err) => console.error(err));

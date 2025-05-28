@@ -21,11 +21,20 @@ import {
 import { AddUserComponent } from '../components/addUser/add-user/add-user.component';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { NotificationServiceService } from '../../../core/services/notification/notification-service.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { UserManagementService } from '../../../core/services/user-management/user-management.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { map, Observable, of, startWith } from 'rxjs';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-user-management',
   standalone: true,
   imports: [
+    MatAutocompleteModule,
     MatFormFieldModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatInputModule,
     MatTableModule,
     MatSortModule,
@@ -34,6 +43,8 @@ import { NotificationServiceService } from '../../../core/services/notification/
     MatIconModule,
     MatButtonModule,
     MatTabsModule,
+    MatMenuModule,
+    MatButtonModule
   ],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.scss',
@@ -43,6 +54,7 @@ export class UserManagementComponent implements OnInit {
     'userName',
     'email',
     'phoneNumber',
+    'groupName',
     'action',
     'extra',
   ];
@@ -54,19 +66,50 @@ export class UserManagementComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   trackingService = inject(TrackingService);
+  userManagementService = inject(UserManagementService);
   authService = inject(AuthService);
   notificationService = inject(NotificationServiceService);
   selectedTabIndex: number = 0;
   store = inject(Store);
   dialog = inject(MatDialog);
 
+  myControl = new FormControl('');
+  vendorOptions: any[] = [];
+  filteredOptions: Observable<any[]>;
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.vendorOptions.filter((option) =>
+      option?.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  constructor() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value || ''))
+    );
+  }
   ngOnInit(): void {
     this.getUsers();
+    this.getVendorList();
+  }
+
+  getVendorList() {
+    this.userManagementService.getVendors().subscribe({
+      next: (response) => {
+        this.vendorOptions = response;
+      },
+      error: (error) => {
+        console.log('error fetching vendor list', error);
+      },
+    });
   }
 
   getUsers() {
     this.store.dispatch(showLoading());
-    this.trackingService.getApprovedUserList().subscribe({
+    this.userManagementService.getApprovedUserList().subscribe({
       next: (response) => {
         this.dataSource = new MatTableDataSource(response);
 
@@ -117,7 +160,7 @@ export class UserManagementComponent implements OnInit {
 
   getUserApprovalList() {
     this.store.dispatch(showLoading());
-    this.trackingService.getUserApprovalList().subscribe({
+    this.userManagementService.getUserApprovalList().subscribe({
       next: (response) => {
         this.userApprovalDataSource = new MatTableDataSource(response);
 
@@ -134,7 +177,7 @@ export class UserManagementComponent implements OnInit {
   }
   getUserRejectedList() {
     this.store.dispatch(showLoading());
-    this.trackingService.getUserRejectedList().subscribe({
+    this.userManagementService.getUserRejectedList().subscribe({
       next: (response) => {
         this.userRejectedDataSource = new MatTableDataSource(response);
 
@@ -156,7 +199,7 @@ export class UserManagementComponent implements OnInit {
       email: value.email,
     };
     this.store.dispatch(showLoading());
-    this.trackingService.approveUser(payload).subscribe({
+    this.userManagementService.approveUser(payload).subscribe({
       next: (response) => {
         if (this.selectedTabIndex === 1) {
           this.userApprovalDataSource = undefined;
@@ -183,7 +226,7 @@ export class UserManagementComponent implements OnInit {
       email: value.email,
     };
     this.store.dispatch(showLoading());
-    this.trackingService.rejectUser(payload).subscribe({
+    this.userManagementService.rejectUser(payload).subscribe({
       next: (response) => {
         this.userApprovalDataSource = undefined;
         this.getUserApprovalList();
@@ -207,7 +250,7 @@ export class UserManagementComponent implements OnInit {
       IsTrackingEnabled: !value.isTrackingEnabled,
     };
     this.store.dispatch(showLoading());
-    this.trackingService.enableUserTracking(payload).subscribe({
+    this.userManagementService.enableUserTracking(payload).subscribe({
       next: (response) => {
         this.dataSource = undefined;
         this.getUsers();
